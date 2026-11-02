@@ -1,7 +1,9 @@
 ---
-name: rc-render
+name: render
 description: Render an episode's delivery frames (1080×1920, 30 fps, SS=2, CPU/SwiftShader) in parallel workers, detached, resumable; re-render only the frame ranges a fix touched; drop black/broken frames. Use for any full or partial render.
 ---
+
+Run everything from the RickClips repo (`repo_dir` in `~/.rickclips/config.json`, through its `run_prefix`); no config → skill `setup`.
 # Render
 
 Full render (detached — survives terminal/agent timeouts):
@@ -20,4 +22,4 @@ setsid nohup bash tools/ep/render.sh <EP> "" "300-580 765-905" > ~/rc_work/<EP>/
 - Changing resolution? empty `frames/` first (render.js skips files that exist).
 - Never run another heavy job beside a render; never `pkill -f` a pattern that matches your own shell.
 - Do not wait in a sleep loop longer than your tool timeout; poll the frame count every few minutes.
-When it prints `frames: N / N` → skill `rc-finalize-qa`.
+When it prints `frames: N / N` → skill `finalize-qa`.

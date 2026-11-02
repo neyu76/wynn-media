@@ -1,7 +1,9 @@
 ---
-name: rc-finalize-qa
+name: finalize-qa
 description: Assemble the delivery (MP4 with burned captions, Kdenlive project checked with melt), run the 21-point QA plus the every-frame black scan, review contact sheets by eye, make the phone preview, and compare against the reference episode. Use after a render or to judge whether a video is ready.
 ---
+
+Run everything from the RickClips repo (`repo_dir` in `~/.rickclips/config.json`, through its `run_prefix`); no config → skill `setup`.
 # Finalize + QA
 
 ```bash
@@ -23,7 +25,7 @@ Ready = all of:
 Failure → fix:
 - detail < 0.86: look at `qa_out/detail_by_time.txt`; whip-pan seconds are expected low; static soft shots → more texture/props in flat areas.
   Don't raise unsharp beyond the two passes in `assemble.sh` (0.7+ gives halos).
-- caption height: skill `rc-audio-captions`.
+- caption height: skill `audio-captions`.
 - black frames: `bash tools/ep/render.sh <EP> "" "<i>-<i>"`, then finalize again.
-- visual bug: skill `rc-shots`, stills, partial re-render, finalize, sheets again — re-check the whole video, fixes can break other shots.
+- visual bug: skill `shots`, stills, partial re-render, finalize, sheets again — re-check the whole video, fixes can break other shots.
 Report honestly what failed and what was only measured, not seen.

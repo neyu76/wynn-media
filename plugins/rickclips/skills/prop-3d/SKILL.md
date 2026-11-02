@@ -1,7 +1,9 @@
 ---
-name: rc-prop-3d
+name: prop-3d
 description: GPU ONLY — turn a reference image into a textured GLB prop with Hunyuan3D-2 (shape mini-turbo + paint turbo) and load it into an episode. Use only on a machine with an NVIDIA GPU (tested 12 GB; peak use 6.7 GB); on CPU-only machines reuse existing GLBs or build the prop from primitives.
 ---
+
+Run everything from the RickClips repo (`repo_dir` in `~/.rickclips/config.json`, through its `run_prefix`); no config → skill `setup`.
 # 3D prop (GPU)
 
 Check first: `bash tools3d/check_gpu.sh` (needs `nvidia-smi`). No NVIDIA GPU → stop; options: reuse `episodes/T015/art/jug.glb`,

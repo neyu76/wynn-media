@@ -18,7 +18,7 @@ Reference episode: **T015 "The Cup That Punishes One Extra Pour"** (Tantalus cup
 | `tools3d/` | **GPU only**: Hunyuan3D-2 install + image→GLB (`run_gen.sh`, `gen_prop.py`) |
 | `references/` | Style Bible (18 sample videos measured), per-video breakdowns, sample scripts, metrics |
 | `docs/KIT_SKILL_v7.md` | full style/production rules (story structure, camera, transitions, captions, audio) — read before writing a new episode |
-| `.claude/skills/` | one skill per repeatable stage (setup, voice, audio+captions, shots, render, finalize+QA, 3D prop, new episode) |
+| `plugins/rickclips/` | Claude Code plugin = the workflow knowledge: `/rickclips:episode <Notion link + script>` (whole episode), `/rickclips:setup`, `/rickclips:voice-id`, stage skills `voice audio-captions shots render finalize-qa prop-3d`. Marketplace: `.claude-plugin/marketplace.json` |
 
 Work output never goes in the repo: `RC_WORK` (default `~/rc_work`) → `~/rc_work/<EP>/{voice,audio,out,frames,deliver,qa_out,review,logs}` and the built engine `~/rc_work/engine_<EP>/`.
 
@@ -120,7 +120,8 @@ Pinned: Node 22, npm lock (three 0.170.0, postprocessing 6.39.5, n8ao 2.0.1, gsa
 Other ffmpeg/x264 versions give visually identical but not byte-identical MP4s.
 
 ## Conventions
-- Episode code lives in `episodes/<EP>/engine/`; never edit `engine_v4/` for one episode. A new episode starts as a copy of T015 (skill `rc-new-episode`).
+- Episode code lives in `episodes/<EP>/engine/`; never edit `engine_v4/` for one episode. A new episode starts as a copy of T015 (skill `episode`, steps 1–2).
+- Per-machine settings (voice id, repo/work dirs, how to run long jobs) live in `~/.rickclips/config.json`, written by `/rickclips:setup`.
 - Keep comments at the end of a statement or on their own line. Syntax-check every edited file before rendering.
 - After any engine edit: stills of every changed shot → look → only then `render.sh` with the affected ranges.
 - Deliverables: `<NAME>.mp4`, `<NAME>_preview.mp4`, `<NAME>_kdenlive.zip`, QA output. Sample videos/frames of other channels are never packaged.

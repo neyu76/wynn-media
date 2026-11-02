@@ -1,7 +1,9 @@
 ---
-name: rc-audio-captions
+name: audio-captions
 description: Build the SFX track, the final −14 LUFS mix and the one-word ASS/SRT captions for an episode, and debug caption size/position or mix levels. Use after voice_prep, or whenever sfx cues, music or caption style change.
 ---
+
+Run everything from the RickClips repo (`repo_dir` in `~/.rickclips/config.json`, through its `run_prefix`); no config → skill `setup`.
 # Audio + captions
 
 ```bash

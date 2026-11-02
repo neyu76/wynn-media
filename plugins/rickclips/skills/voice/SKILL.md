@@ -1,7 +1,9 @@
 ---
-name: rc-voice
+name: voice
 description: Prepare the narration — from a recorded/generated voice take to a cleaned −16 LUFS voice track with per-word timings (pocketsphinx forced alignment). Use when a new take arrives, the tempo/wpm is off, or captions don't line up.
 ---
+
+Run everything from the RickClips repo (`repo_dir` in `~/.rickclips/config.json`, through its `run_prefix`); no config → skill `setup`.
 # Voice
 
 Input: `episodes/<EP>/script.txt` (exact words read, numbers spelled out) and `episodes/<EP>/voice/<take>.mp3`.

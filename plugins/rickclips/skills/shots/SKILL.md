@@ -1,7 +1,9 @@
 ---
-name: rc-shots
+name: shots
 description: Write or fix an episode's shots in the three.js engine overlay (episodes/<EP>/engine/main.js + set file) — segments, camera keys, character poses/expressions, props, x-ray cutaways, labels — and check them with stills. Use for any visual change.
 ---
+
+Run everything from the RickClips repo (`repo_dir` in `~/.rickclips/config.json`, through its `run_prefix`); no config → skill `setup`.
 # Shots (engine overlay)
 
 Files: `episodes/<EP>/engine/main.js` (timeline), a set file (T015: `taverna.js` = set A taverna + set B x-ray at x=300),
@@ -24,6 +26,6 @@ Rules learned on T015:
 - **Never put a comment in the middle of a line** (it silently removed the water from 9 s of T015). Comments at line end or on their own line.
 - After every edit: `node --check` the file, then stills of each changed shot:
   `bash tools/ep/stills.sh <EP> fixN "12.5,14.9,16.2"` → look at `~/rc_work/<EP>/preview/fixN.png`.
-- Only then re-render the affected frame ranges (skill `rc-render`).
+- Only then re-render the affected frame ranges (skill `render`).
 
 Style rules (story, camera grammar, transitions, technique library T01–T24): `docs/KIT_SKILL_v7.md`, `references/STYLE_BIBLE.md`.
