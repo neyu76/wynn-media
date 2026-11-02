@@ -58,3 +58,5 @@ Full render detached; then `finalize.sh`, `sheets.sh`, eye review of every sheet
 Copy `<NAME>.mp4`, `<NAME>_preview.mp4`, `<NAME>_kdenlive.zip` where the user can open them (ask once; remember in config as `deliver_dir`),
 send the preview, and report: duration, QA result, what you checked by eye, anything not done or not verified, credits used if known.
 Commit the episode's sources (not binaries) to the repo on a branch if the user wants it kept.
+Binaries (art, audio, voice) go to their own release `assets-<EP>`: zip them with paths from the repo root plus a `MANIFEST.txt`
+(sha256sum of every file) at the zip root, so `bash setup.sh --assets rickclips_assets_<EP>.zip` unpacks and verifies them.

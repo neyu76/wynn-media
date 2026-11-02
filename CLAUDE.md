@@ -27,6 +27,7 @@ Work output never goes in the repo: `RC_WORK` (default `~/rc_work`) → `~/rc_wo
 gh release download assets-T015 --repo neyu76/rickclips --pattern 'rickclips_assets_T015.zip*'   # 219 MB, private repo → gh auth login first
 sha256sum -c rickclips_assets_T015.zip.sha256
 bash setup.sh --assets rickclips_assets_T015.zip      # ~1–5 min; ends with "SETUP OK"
+# other episodes ship their binaries the same way, one release each: assets-T001 → rickclips_assets_T001.zip (unpack after T015's)
 bash tools/ep/run_all.sh T015                          # ~2 h (render ≈ 95 %); or step by step below
 ```
 Long jobs: `setsid nohup bash tools/ep/run_all.sh T015 > ~/rc_work/T015.run.log 2>&1 &` (agent/terminal timeouts kill foreground jobs).

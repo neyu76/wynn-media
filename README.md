@@ -7,6 +7,8 @@ gh release download assets-T015 --repo neyu76/rickclips --pattern 'rickclips_ass
 sha256sum -c rickclips_assets_T015.zip.sha256
 bash setup.sh --assets rickclips_assets_T015.zip   # Ubuntu, no GPU needed
 bash tools/ep/run_all.sh T015                       # rebuild the reference episode (~2 h)
+# more episodes: one release each (assets-T001, …), e.g.
+#   gh release download assets-T001 --repo neyu76/rickclips --pattern 'rickclips_assets_T001.zip*' && bash setup.sh --assets rickclips_assets_T001.zip
 ```
 ## Claude Code plugin (the workflow knowledge)
 ```
