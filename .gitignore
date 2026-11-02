@@ -13,6 +13,7 @@ episodes/*/art/
 episodes/*/audio/
 episodes/*/voice/
 *.zip
+*.zip.sha256
 *.mp4
 *.mov
 *.wav
