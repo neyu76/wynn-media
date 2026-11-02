@@ -32,4 +32,5 @@ qa_out/
 # secrets: API keys live only in ~/.secrets/
 .secrets/
 *.key
+CLAUDE.local.md
 .env
