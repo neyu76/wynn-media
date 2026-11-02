@@ -96,6 +96,7 @@ water/streams present whenever the narration says so; labels overlapping objects
 | Water/tray/streams vanished in 10–19 s | a `//` comment inserted mid-line commented out `level/stem/drain/tray` | never put a comment in the middle of a line or argument list; re-check stills after every edit |
 | Same mistake broke `mix_final.py` (SyntaxError) | comment inside a call | `python3 -c "import ast…"` / `bash -n` / `node --check` every edited file |
 | Sweat drops / sparkles differ between renders (PSNR ~32 dB in those frames) | `Char.set` caches the face canvas by state **without t**, so time-animated fx freeze at the first frame each worker drew → output depends on how frames were split between workers | T015 keeps the original behaviour (to match the delivery). For new episodes: add `fx ? Math.round(t*30) : ''` to the cache key in `core.js` `Char.set` |
+| pocketsphinx alignment fails ("Failed to set up alignment") | a script word is missing from cmudict (T010: "awnings") | add it to `episodes/<EP>/extra.dict` (`word PH ON ES`, CMU phones); `voice_prep.sh` passes it as `RC_DICT` to `align_ps.py` |
 | `melt` hangs when run detached | waits on stdin | `</dev/null` + `timeout -k` |
 | ffprobe `csv=p=0` prints `1080,` | trailing separator | use `-of default=nw=1:nk=1` |
 | Old 720p frames reused after switching to 1080p | `render.js` skips existing files | clear `frames/` when the resolution changes |
@@ -109,7 +110,7 @@ water/streams present whenever the narration says so; labels overlapping objects
 - **GPU only (NVIDIA, CUDA 12.8; tested RTX 3060 12 GB, peak 6.7 GB with CPU offload, ~10 min per prop, ~25 GB model cache)**: Hunyuan3D-2 image→3D (`tools3d/*`). Everything else runs on CPU. On a CPU-only box reuse
   `episodes/T015/art/jug.glb` from the asset zip, or model props as primitives / use a CC0 library model.
 - **Not GPU, but external accounts** (done through the ElevenLabs connector in the original session; outputs for T015 are in the asset zip):
-  voice (eleven_v4, cloned voice "Rick" `DKsARo574aeDoZ21UXE4`), music (Music v2.5), water SFX (Sound Effects v2), painted backdrops and
+  voice (eleven_v4; T015 used cloned voice "Rick" `DKsARo574aeDoZ21UXE4`; from T010 on the cloned voice "rick" `J8XNjWRT3iUYhRklysg1` in the second Claude account's ElevenLabs workspace), music (Music v2.5), water SFX (Sound Effects v2), painted backdrops and
   the jug reference image (Nano Banana 2.1). A new episode needs these generated again; API keys go only in `~/.secrets/` (chmod 600), never in the repo.
 - **Kdenlive GUI** is optional (the project is verified headless with `melt`).
 

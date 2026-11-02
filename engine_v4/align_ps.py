@@ -8,9 +8,15 @@ for k,v in NUM.items(): text=text.replace(k,v)
 toks=[w for w in re.findall(r"[A-Za-zÀ-ÿ']+",text)]
 norm=[re.sub(r"[^a-z']","",t.lower().replace('é','e')) for t in toks]
 d=Decoder(samprate=16000,bestpath=False)
+# words missing from cmudict: optional episode dictionary (RC_DICT env, lines 'word PH ON ES')
+import os
+if os.environ.get('RC_DICT') and os.path.exists(os.environ['RC_DICT']):
+    for ln in open(os.environ['RC_DICT']):
+        ps=ln.split()
+        if len(ps)>1: d.add_word(ps[0].lower(),' '.join(ps[1:]),True)
 d.set_align_text(' '.join(norm))
 d.start_utt(); d.process_raw(raw,full_utt=True); d.end_utt()
 segs=[(s.word,s.start_frame/100,(s.end_frame+1)/100) for s in d.seg() if s.word not in ('<s>','</s>','<sil>','(NULL)')]
 print(len(segs),len(norm))
 json.dump([{'word':w,'start':a,'end':b} for w,a,b in segs],open(out,'w'),indent=0)
-print(segs[:12])
+print(segs[:12],file=sys.stderr)  # stderr: voice_prep pipes stdout into head -1

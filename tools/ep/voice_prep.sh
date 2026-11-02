@@ -12,4 +12,4 @@ I=$(ffmpeg -hide_banner -nostats -i "$EP/voice/voice_pre.wav" -af ebur128 -f nul
 ffmpeg -v error -y -i "$EP/voice/voice_pre.wav" -af "volume=$(python3 -c "print(-16-($I))")dB,alimiter=limit=0.89:level=false" "$EP/voice/voice_final.wav"
 D=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$EP/voice/voice_final.wav"); W=$(wc -w < "$EP/script.txt")
 python3 -c "print('voice %.2f s, %d words, %.0f wpm (samples 208–244)'%($D,$W,$W/$D*60))"
-python3 "$RC/engine_v4/align_ps.py" "$EP/voice/voice_final.wav" "$EP/script.txt" "$EP/voice/align.json" | head -1
+RC_DICT="$SRC/extra.dict" python3 "$RC/engine_v4/align_ps.py" "$EP/voice/voice_final.wav" "$EP/script.txt" "$EP/voice/align.json" | head -1
