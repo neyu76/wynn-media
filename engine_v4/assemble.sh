@@ -6,7 +6,7 @@ set -e
 KIT=${KIT:-$(cd "$(dirname "$0")/.." && pwd)}; R=${EP:-$(pwd)}; NAME=${NAME:-RickClips_video}; D=$R/deliver; mkdir -p $D/media/fonts
 TAG="-color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709"
 ffmpeg -nostdin -v error -y -framerate 30 -i $R/frames/f_%05d.jpg \
-  -vf "unsharp=5:5:0.5:5:5:0,unsharp=3:3:0.5:3:3:0,scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p" \
+  -vf "eq=saturation=${SAT:-1},unsharp=5:5:0.5:5:5:0,unsharp=3:3:0.5:3:3:0,scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p" \
   -c:v libx264 -preset slow -tune animation -crf 14 $TAG -r 30 $D/media/video_clean.mp4
 cp $R/out/captions.ass $R/out/captions.srt $D/media/
 cp $KIT/fonts/WorkSans-latin-800.ttf $KIT/fonts/OFL-WorkSans.txt $D/media/fonts/
