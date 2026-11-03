@@ -101,6 +101,7 @@ water/streams present whenever the narration says so; labels overlapping objects
 | QA music floor above −13.5 dB (T003: −12.7) | bed too loud for this episode's voice | `BED=-25` in `episode.env` (music bed before ducking; default −23) |
 | Many black frames dropped on a 4-core / 15 GB cloud box | 4 SwiftShader workers at SS=2 hit the memory limit (OOM kill, WebGL context lost) | run `render.sh <EP> 3`; `render.sh` re-renders dropped frames, finish with one 1-worker pass |
 | `prepare_mg.sh` silently skipped (404 on the backdrop, page never READY) | new hook file not executable (`sync_engine.sh` tests `-x`) | `chmod +x episodes/<EP>/prepare_mg.sh` |
+| QA frozen frames 1.3 s (T002 35.3–36.6 s) | slow push over a flat, texture-less card (cover) → consecutive frames differ < 0.15 | stronger push / sideways drift on holds over flat surfaces; re-render only that range |
 | `melt` hangs when run detached | waits on stdin | `</dev/null` + `timeout -k` |
 | ffprobe `csv=p=0` prints `1080,` | trailing separator | use `-of default=nw=1:nk=1` |
 | Old 720p frames reused after switching to 1080p | `render.js` skips existing files | clear `frames/` when the resolution changes |
