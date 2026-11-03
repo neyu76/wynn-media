@@ -5,7 +5,7 @@ description: Prepare this machine and account for RickClips — get the code rep
 # RickClips setup (adapt to this machine)
 
 The plugin only carries the workflow. The code (engine, pipeline scripts, QA tools) is the git repo
-`https://github.com/neyu76/rickclips` (private: the user's GitHub account needs access), binaries are in its release `assets-T015`.
+`https://github.com/neyu76/wynn-media` (private: the user's GitHub account needs access), binaries are in its release `assets-T015`.
 Read the repo's `CLAUDE.md` after cloning — it is the full reference (parameters, QA gates, known bugs).
 
 ## 1. Look at the machine first
@@ -16,7 +16,7 @@ results can differ slightly — say so.
 
 ## 2. Code + assets
 ```bash
-gh repo clone neyu76/rickclips <dir>           # or git clone; ask the user where (default ~/rickclips; in WSL keep it on the Linux disk)
+gh repo clone neyu76/wynn-media <dir>           # or git clone; ask the user where (default ~/rickclips; in WSL keep it on the Linux disk)
 cd <dir> && gh release download assets-T015 --pattern 'rickclips_assets_T015.zip*' && sha256sum -c rickclips_assets_T015.zip.sha256
 ```
 No access → ask the user to be invited to the repo. Don't work around it.
