@@ -1,0 +1,13 @@
+These gray squares can look different, even when their pixels match.
+
+Two painters are arguing over a picture. One points to square A. The other points to square B. On the checkerboard, one square sits in what looks like a shadow.
+
+They reach for two different paint cans. But sample the two marked areas in this designed image, and the color values match. The measurement disagrees with what the painters think they see.
+
+You see, judging a surface's lightness involves context, including the apparent lighting around it. The shadow and surrounding pattern help shape how those identical image values are interpreted.
+
+So cover the picture around the two squares. Leave only matching windows over A and B. The surrounding clues disappear, making the matching gray easier to compare. The pixels underneath have not changed.
+
+Remove the cover, and the difference may seem to return. Our painters stare at the board, then at their matching samples. Nothing was repainted. All we changed was what surrounded the squares.
+
+Same pixels. Different verdict.
