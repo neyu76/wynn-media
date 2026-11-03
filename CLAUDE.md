@@ -97,6 +97,10 @@ water/streams present whenever the narration says so; labels overlapping objects
 | Water/tray/streams vanished in 10–19 s | a `//` comment inserted mid-line commented out `level/stem/drain/tray` | never put a comment in the middle of a line or argument list; re-check stills after every edit |
 | Same mistake broke `mix_final.py` (SyntaxError) | comment inside a call | `python3 -c "import ast…"` / `bash -n` / `node --check` every edited file |
 | Sweat drops / sparkles differ between renders (PSNR ~32 dB in those frames) | `Char.set` caches the face canvas by state **without t**, so time-animated fx freeze at the first frame each worker drew → output depends on how frames were split between workers | T015 keeps the original behaviour (to match the delivery). For new episodes: add `fx ? Math.round(t*30) : ''` to the cache key in `core.js` `Char.set` |
+| pocketsphinx alignment fails ("Failed to set up alignment") | a script word is missing from cmudict (T010: "awnings") | add it to `episodes/<EP>/extra.dict` (`word PH ON ES`, CMU phones); `voice_prep.sh` passes it as `RC_DICT` to `align_ps.py` |
+| QA music floor above −13.5 dB (T003: −12.7) | bed too loud for this episode's voice | `BED=-25` in `episode.env` (music bed before ducking; default −23) |
+| Many black frames dropped on a 4-core / 15 GB cloud box | 4 SwiftShader workers at SS=2 hit the memory limit (OOM kill, WebGL context lost) | run `render.sh <EP> 3`; `render.sh` re-renders dropped frames, finish with one 1-worker pass |
+| `prepare_mg.sh` silently skipped (404 on the backdrop, page never READY) | new hook file not executable (`sync_engine.sh` tests `-x`) | `chmod +x episodes/<EP>/prepare_mg.sh` |
 | `melt` hangs when run detached | waits on stdin | `</dev/null` + `timeout -k` |
 | ffprobe `csv=p=0` prints `1080,` | trailing separator | use `-of default=nw=1:nk=1` |
 | Old 720p frames reused after switching to 1080p | `render.js` skips existing files | clear `frames/` when the resolution changes |
