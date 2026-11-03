@@ -135,10 +135,27 @@ export let CAM_SIGMA = 0.2;
 export function camSmooth(keys, t, sg = (typeof window !== 'undefined' && window.__sg !== undefined) ? window.__sg : CAM_SIGMA) { if (!sg) return monoX(keys, t); const N = 8, acc = new Array(keys[0].length - 1).fill(0); let ws = 0;
   for (let k = -N; k <= N; k++) { const o = k / N * 2.5 * sg, w = Math.exp(-0.5 * (o / sg) ** 2), v = monoX(keys, t + o); for (let i = 0; i < acc.length; i++) acc[i] += w * v[i]; ws += w; }
   return acc.map(v => v / ws); }
-export function setCam(keys, t, sg) { const v = sg === undefined ? camSmooth(keys, t) : camSmooth(keys, t, sg); camera.position.set(v[0], v[1], v[2]); camera.up.set(0, 1, 0); camera.lookAt(v[3], v[4], v[5]); if (v[7]) camera.rotateZ(v[7] * Math.PI / 180); camera.fov = v[6]; camera.updateProjectionMatrix(); camLook(v); return v; }
+// impact kicks (measured on the samples' style): image offset flips sign EVERY frame, ~3 px @720 per unit, roll ±0.23° per unit,
+// gone in 7 frames; the push-in should stop on the hit. CAM_KICKS = [[t, gain], ...]; empty = no effect (T015 unchanged)
+export let CAM_KICKS = [];
+export const setKicks = (list) => { CAM_KICKS = list; };
+export const kickAt = (t) => { let a = 0; for (const [t0, g] of CAM_KICKS) { const n = Math.round((t - t0) * 30); if (n >= 0 && n < 7) a += g * (n % 2 ? -1 : 1) * (1 - n / 7) ** 1.5; } return a; };
+export function setCam(keys, t, sg) { const v = sg === undefined ? camSmooth(keys, t) : camSmooth(keys, t, sg); camera.position.set(v[0], v[1], v[2]); camera.up.set(0, 1, 0); camera.lookAt(v[3], v[4], v[5]); if (v[7]) camera.rotateZ(v[7] * Math.PI / 180);
+  const a = kickAt(t); if (a) { const ang = a * 3 / 640 * Math.tan(v[6] * Math.PI / 360); camera.rotateY(ang); camera.rotateX(0.6 * ang); camera.rotateZ(a * 0.004); }
+  camera.fov = v[6]; camera.updateProjectionMatrix(); camLook(v); return v; }
 export function track(list, t, d = 0.18) { let v = list[0][1]; for (let i = 1; i < list.length; i++) { const [ti, vi] = list[i]; if (t <= ti - d) break; const k = ss(ti - d, ti, t); v = Array.isArray(vi) ? lerpA(v, vi, k) : (k > 0.5 ? vi : v); } return v; }
 export const step = (list, t) => { let v = list[0][1]; for (const [ti, vi] of list) if (t >= ti) v = vi; return v; };
 export const blink = (t, off) => ((t + off) % 3.3) < 0.09;
+// new episodes: eyelid 0 open … 1 shut. Samples' style: gaps 0.5–2.3 s, 4-frame blink half/shut/shut/half, and a blink across
+// every expression swap (swaps = word times where expr changes). Pass the result as CH.set({ blink }) — chars2 draws 0.5 as a half lid.
+const LID = [0.5, 1, 1, 0.5], hh = (i, s) => { const x = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return x - Math.floor(x); };
+export const blinkLid = (t, seed = 0, swaps = []) => {
+  for (const ts of swaps) { const k = Math.floor((t - ts + 2 / 30) * 30) + 1; if (k >= 0 && k < 4) return LID[k]; }
+  let s = -2 * hh(seed, 9);
+  for (let n = 0; s <= t && n < 400; n++) { const k = Math.floor((t - s) * 30); if (k >= 0 && k < 4) return LID[k]; s += 0.5 + 1.8 * hh(seed * 31 + n, 13); }
+  return 0; };
+// reactions (expression/action changes) land 0–3 frames BEFORE their word: use t + REACT_LEAD when looking up expression tables
+export const REACT_LEAD = 2 / 30;
 // GSAP back.out overshoot pop (props/labels/bubbles appearing)
 export const pop = (t0, t, d = 0.18) => { const k = clamp((t - t0) / (d * 1.6)); return k <= 0 ? 0 : EASE.pop(k); };
 export const talk = (t, on) => on ? (Math.sin(t * 22) > 0) : false;

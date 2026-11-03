@@ -167,7 +167,7 @@ function drawHead(ctx, T, hx, hy, p, sd = 0) {
     switch (e) { case 'smug': lid = 0.38; dy = side < 0 ? 0.012 : -0.004; break; case 'grin': dy = 0.012; break; case 'shock': wide = true; dy = 0.04; break;
       case 'worried': case 'ashamed': tilt = 0.9; dy = 0.008; break; case 'angry': lid = 0.35; tilt = -1.1; dy = -0.01; break; case 'stare': lid = 0.5; tilt = -0.5; break;
       case 'squint': lid = side < 0 ? 0.62 : 0; dy = side < 0 ? -0.012 : 0.03; tilt = side < 0 ? -0.6 : 0.3; break; case 'greedy': wide = true; dy = 0.03; break; }
-    if (p.blink) lid = 1;
+    if (p.blink === true || p.blink >= 1) lid = 1; else if (p.blink > 0) lid = Math.max(lid, p.blink);
     const closed = e === 'sleepy' || e === 'laugh' || e === 'sigh' || (e === 'wink' && side > 0);
     if (closed || lid >= 1) { if (e === 'laugh' || e === 'wink') line(ctx, [[cx - 0.045, ey - 0.012], [cx, ey + 0.026], [cx + 0.045, ey - 0.012]], 0.017); else line(ctx, [[cx - 0.045, ey + 0.004], [cx, ey - 0.018], [cx + 0.045, ey + 0.004]], 0.016); brow(cx, side, e === 'sigh' ? 0.01 : 0, e === 'sigh' ? 0.7 : 0); return; }
     const lk = e === 'ashamed' ? [look[0], -1] : look;
