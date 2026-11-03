@@ -67,7 +67,7 @@ function seg4(t) { setCam(CAM4, t);
 
 // ================================================================ S5 26.9–36.7 cover the picture · matching windows over A and B · clues gone · pixels unchanged
 const MID = A.clone().lerp(B, 0.5);
-const CAM5 = [[26.7, 0.0, 1.52, 2.6, 0.0, 1.5, -0.3, 45], [28.8, -0.05, 1.45, 2.35, -0.08, 1.38, -0.3, 44], [31.0, MID.x, 1.42, 2.05, MID.x, MID.y, -0.3, 42], [33.6, MID.x, 1.41, 1.95, MID.x, MID.y, -0.3, 41], [36.9, MID.x, 1.4, 1.8, MID.x, MID.y, -0.3, 40]];
+const CAM5 = [[26.7, 0.0, 1.52, 2.6, 0.0, 1.5, -0.3, 45], [28.8, -0.05, 1.45, 2.35, -0.08, 1.38, -0.3, 44], [31.0, MID.x, 1.42, 2.05, MID.x, MID.y, -0.3, 42], [33.6, MID.x - 0.05, 1.41, 1.95, MID.x - 0.04, MID.y, -0.3, 41], [36.9, MID.x + 0.12, 1.37, 1.55, MID.x + 0.08, MID.y, -0.3, 39]];
 function seg5(t) { setCam(CAM5, t);
   world(t, { cover: ss(27.35, 28.6, t), ovAB: 0, cans: 'hand', p1: { at: P1, ex: [[0, 'stare'], [33.3, 'shock']], look: [1, 0.2] }, p2: { at: P2, ex: [[0, 'stare'], [33.3, 'worried']], look: [-1, 0.2] } }); }
 
