@@ -126,7 +126,9 @@ function labelTex(txt, sub, col = '#2b3f73') { return rawTex(760, sub ? 200 : 14
   fit(c, txt, w / 2, sub ? 72 : h / 2, w - 70, 66, col); if (sub) fit(c, sub, w / 2, 144, w - 80, 40, '#6a5a44', '"DejaVu Serif", serif', 'italic'); }); }
 export function label(txt, sub, w = 0.42) { const m = card(w, w * (sub ? 200 : 140) / 760, labelTex(txt, sub), g, { depthTest: false, opacity: 0 }); m.renderOrder = 6; m.visible = false; return m; }
 export const LAB = { player: label('CONCEALED PLAYER', null, 0.34), magnet: label('MAGNETIC INDICATORS', 'simplified', 0.3), lever: label('ARM CONTROL', 'simplified', 0.36), skill: label('CHESS SKILL: HUMAN', null, 0.42) };
-export function showLabel(m, k, pos, cam) { m.visible = k > 0.01; m.material.opacity = clamp(k); if (pos) m.position.copy(pos); if (cam) m.quaternion.copy(cam.quaternion); m.scale.setScalar(0.85 + 0.15 * clamp(k)); }
+// labels ride with the camera too (y = slot as a fraction of the frame height, under the notice): never clipped, never over the captions
+export function showLabel(m, k, slot, cam) { m.visible = k > 0.01; m.material.opacity = clamp(k); if (!m.visible) return; const h = 2 * Math.tan(cam.fov * Math.PI / 360), w = h * cam.aspect;
+  m.position.set(0, slot * h, -1).applyMatrix4(cam.matrixWorld); m.quaternion.copy(cam.quaternion); m.scale.setScalar(0.6 * w / m.geometry.parameters.width * (0.9 + 0.1 * clamp(k))); }
 // plaque on the stage floor in front of the cabinet (always visible)
 const plaqueTex = (a, b) => rawTex(900, 170, (c, w, h) => { c.fillStyle = '#f4f1ea'; c.fillRect(0, 0, w, h); c.strokeStyle = INK; c.lineWidth = 8; c.strokeRect(4, 4, w - 8, h - 8); fit(c, a, w / 2, 62, w - 60, 62, '#2b3f73'); fit(c, b, w / 2, 128, w - 80, 40, '#6a5a44', '"DejaVu Serif", serif', 'italic'); });
 const PQ = { anim: plaqueTex('ANIMATED RECONSTRUCTION', 'staged scene · not a historical game'), simp: plaqueTex('SIMPLIFIED RECONSTRUCTION', 'mechanism shown as a simplified model') };
