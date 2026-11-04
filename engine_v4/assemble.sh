@@ -7,8 +7,10 @@ KIT=${KIT:-$(cd "$(dirname "$0")/.." && pwd)}; R=${EP:-$(pwd)}; NAME=${NAME:-Ric
 TAG="-color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709"
 # optional per-episode SAT (episode.env), e.g. 0.93 when warm sets push the QA saturation median over 135; unset = unchanged
 EQ=${SAT:+eq=saturation=$SAT,}
+# optional per-episode SHARP (episode.env): amount of one more fine 3×3 unsharp, e.g. 0.3 when big flat areas keep the QA detail median just under 0.86; unset = unchanged
+US=${SHARP:+unsharp=3:3:$SHARP:3:3:0,}
 ffmpeg -nostdin -v error -y -framerate 30 -i $R/frames/f_%05d.jpg \
-  -vf "${EQ}unsharp=5:5:0.5:5:5:0,unsharp=3:3:0.5:3:3:0,scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p" \
+  -vf "${EQ}unsharp=5:5:0.5:5:5:0,unsharp=3:3:0.5:3:3:0,${US}scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p" \
   -c:v libx264 -preset slow -tune animation -crf 14 $TAG -r 30 $D/media/video_clean.mp4
 cp $R/out/captions.ass $R/out/captions.srt $D/media/
 cp "$KIT/fonts/WorkSans-latin-800.ttf" "$KIT/fonts/OFL-WorkSans.txt" "$D/media/fonts/"

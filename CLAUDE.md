@@ -88,6 +88,7 @@ water/streams present whenever the narration says so; labels overlapping objects
 | Caption QA 25 px, white looks grey | kit `assemble.sh` kept JPEG full-range/BT.601 (`yuvj420p`, `pc`); decoders read white as 235; letters split at the 235 threshold | `engine_v4/assemble.sh`: convert to tv-range BT.709 + tag. Probe: `tools/ep/caption_probe.py` (fill ≈ 252 = good) |
 | Caption still small | font 75 was ~8 % under the samples | size 81 (`tools/ep/captions.py`) |
 | Detail 0.846 < 0.86 | soft AA edges + QA re-encode | extra `unsharp=3:3:0.5` (no halos at 100 %) → 0.877. Grain does NOT help (encoder removes it) |
+| T005 detail 0.859 < 0.86 | big flat areas (plain pavement, orange coat close-ups) | per-episode `SHARP=0.3` in `episode.env` (one more 3×3 unsharp in `assemble.sh`; unset = unchanged) → 0.869, no re-render. Note: it nudges the optical-flow push-in share by ±2 points |
 | 1-frame black flashes (14.0 s, 18.7 s) | a killed/context-lost worker left a valid but black JPEG; sampled QA missed it | `drop_bad_frames.py` in `render.sh` + every-frame `flat_frames.py` in `qa.sh` |
 | Ducked music stops at 27.6 s | `sidechaincompress` ends with the shorter input | `production/mix_final.py`: `,apad,atrim=0:DUR` |
 | Kdenlive opens at 720×1280 | profile hard-coded | `gen_kdenlive.py` reads the video size; master gain from measured stem sum (`GAIN`) |

@@ -6,7 +6,7 @@ set -e; source "$(dirname "$0")/env.sh" "$1"
 N=$(ls "$EP"/frames/f_*.jpg 2>/dev/null | wc -l); echo "frames $N / $NFRAMES"
 [ "$N" -eq "$NFRAMES" ] || { echo "missing frames → bash tools/ep/render.sh $EPN"; exit 1; }
 rm -rf "$EP/deliver"
-EP=$EP NAME=$NAME KIT=$RC SAT=${SAT:-} bash "$RC/engine_v4/assemble.sh"
+EP=$EP NAME=$NAME KIT=$RC SAT=${SAT:-} SHARP=${SHARP:-} bash "$RC/engine_v4/assemble.sh"
 echo "video: $(ffprobe -v error -select_streams v:0 -show_entries stream=width,height,pix_fmt,color_range,color_space -of compact=p=0 "$EP/deliver/$NAME.mp4")"
 # Kdenlive master gain from the measured stem sum (so the project plays at −14 LUFS like the mp4)
 L=$(ffmpeg -nostdin -i "$EP/audio/sum.wav" -af ebur128 -f null - 2>&1 | grep -E "^\s+I:" | tail -1 | awk '{print $2}')
