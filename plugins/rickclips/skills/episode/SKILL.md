@@ -17,7 +17,23 @@ Keep the user's task list current; this takes ~2–4 h, most of it rendering.
 - Check against the style rules (`docs/KIT_SKILL_v7.md` §3): hook in 0–4 s with a concrete image; ≤ 6-word closer; 45 s ≈ 160–170 words.
   Don't rewrite the user's script silently — suggest changes and ask.
 
-## 2. Scaffold (template = T015)
+## 1b. Style: v8 is the default for new episodes
+Read `docs/STYLE_V8.md` first (the owner's current target look: real 3D rooms/landscapes, wide low/high lens, real holds + eased moves,
+saturated accent, stereo bed, smaller captions). Use the kit v7 path below (T015 template, painted backdrops) only if the user asks for the old look.
+v8 scaffold (template = PINK15):
+```bash
+EP=T016; mkdir -p episodes/$EP/{engine,art,audio/sfx_el,voice}
+cp episodes/PINK15/{episode.env,build_sfx.py,prepare_mg.sh} episodes/$EP/
+cp episodes/PINK15/engine/{core.js,chars2.js} episodes/$EP/engine/     # core.js: ?res switch, v8 grade, fx cache fix already in
+cp episodes/PINK15/engine/main.js episodes/$EP/engine/main.js            # timeline pattern: segments, camera keys, ch(), dissolves
+# new set file episodes/$EP/engine/<set>.js: import from './sets3d.js' + './looks.js' (engine_v4) the way PINK15 prison.js does
+```
+`episode.env` keeps `STYLE=v8 RES=1280 CAP_SIZE=66 STEREO=1`; in `core.js` raise `HueSaturationEffect` saturation to +0.15…+0.25.
+No painted backdrops in v8: art = prop reference images only (GLB via `prop-3d`) and textures drawn in code.
+Before the full render: `bash tools/ep/compare_sample.sh <EP> cmp1 <v8 sample.mp4> "<sample t…>" "<our t,…>"` (samples on this machine:
+`~/rc_work/ref_pink/*.mp4`, `~/rc_work/ref_rail/rail.mp4`; never copy them into the repo). Render the draft at 720p, QA, then `RES=1920` for delivery.
+
+## 2. Scaffold, kit v7 path (template = T015)
 ```bash
 EP=T016; mkdir -p episodes/$EP/{engine,art,audio/sfx_el,voice}
 cp episodes/T015/{episode.env,build_sfx.py,prepare_mg.sh} episodes/$EP/
@@ -53,6 +69,8 @@ per-frame actions) using T015's `taverna.js`/`main.js` as the pattern. Rules tha
 ## 6. Render → finalize → QA → review (skills `render`, `finalize-qa`)
 Full render detached; then `finalize.sh`, `sheets.sh`, eye review of every sheet, fix → stills → partial re-render → finalize, until
 **21/21 QA + no flat frames + clean eye review**. Then `preview.sh`.
+v8: the kit gates switch with `STYLE=v8`; also run `vidclone qa <mp4> --style references/style_v8` (44 gates from the two samples)
+and report the failing gates by name. Draft at `RES=1280`; the 1920 delivery render needs `frames/` cleared first.
 
 ## 7. Deliver
 Copy `<NAME>.mp4`, `<NAME>_preview.mp4`, `<NAME>_kdenlive.zip` where the user can open them (ask once; remember in config as `deliver_dir`),

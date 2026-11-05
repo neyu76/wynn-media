@@ -13,3 +13,9 @@ NFRAMES=$(python3 -c "print(round($DUR*30))")
 [ -x "$RC/.venv/bin/python3" ] && export PATH="$RC/.venv/bin:$PATH"
 mkdir -p "$EP"/{voice,out,audio,frames,logs}
 export RC EPN SRC WORK EP E KIT NAME DUR NFRAMES
+# optional per-episode knobs (unset = kit v7 behaviour, T015 unchanged):
+#   STYLE=v8      QA gates of docs/STYLE_V8.md (tools/analysis/qa_compare.py)
+#   RES=1280      frame height for v8 core.js (1280 = fast 720p draft, 1920 = delivery); clear frames/ when it changes
+#   CAP_SIZE=66   caption font size @ PlayRes 720×1280 (default 81; v8 samples ≈ 66)
+#   STEREO=1      keep the music bed's stereo width (mix side ≈ −25 dB like the v8 samples; default 0 = mono)
+export STYLE=${STYLE:-} RES=${RES:-} CAP_SIZE=${CAP_SIZE:-81} STEREO=${STEREO:-0}

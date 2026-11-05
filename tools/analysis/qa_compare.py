@@ -41,19 +41,23 @@ import numpy as _np, wave as _wave
 _w = _wave.open(f'{work}/a48.wav'); _x = _np.frombuffer(_w.readframes(_w.getnframes()), _np.int16).astype(float).reshape(-1, _w.getnchannels()).mean(1)
 _r = _np.sqrt(_np.convolve(_x ** 2, _np.ones(2400) / 2400, 'valid')[::1200] + 1e-9); _d = 20 * _np.log10(_r)
 floor_db = round(float(_np.percentile(_d, 5) - _np.percentile(_d, 50)), 1)
+# STYLE=v8 (episode.env → env.sh): gates from the two v8 samples (docs/STYLE_V8.md): real holds (static 18–39 %), stereo bed
+# (side − mid −24…−26 dB), smaller captions (≈ 0.031 of the height ≈ 30 px kit measure), saturation 96–128. Unset = kit v7 gates (T015).
+V8 = os.environ.get('STYLE', '') == 'v8'
+G = dict(static=(0.10, 0.45), side=(-32, -18), cap=(26, 34), sat=(85, 140)) if V8 else dict(static=(0, 0.05), side=(-999, -20), cap=(31, 39), sat=(0, 135))
 checks = [
     ('Độ phân giải', f'{W}x{H}', (W, H) in [(720, 1280), (1080, 1920)]),
     ('FPS', round(fps, 2), abs(fps - 30) < 0.01),
     ('Thời lượng (s)', round(dur, 1), 34 <= dur <= 78),
     ('Loudness (LUFS)', m['audio']['I_LUFS'], m['audio']['I_LUFS'] is not None and -15.6 <= m['audio']['I_LUFS'] <= -13.5),
     ('True peak (dBFS)', m['audio']['true_peak'], m['audio']['true_peak'] is not None and m['audio']['true_peak'] <= -1.0),
-    ('Side−Mid (dB) ≤ −20', a['side_minus_mid_db'], a['side_minus_mid_db'] <= -20),
-    ('Đứng yên ≤ 5%', round(m['static_share'] * 100, 1), m['static_share'] <= 0.05),
+    (f"Side−Mid (dB) {'−32…−18' if V8 else '≤ −20'}", a['side_minus_mid_db'], G['side'][0] <= a['side_minus_mid_db'] <= G['side'][1]),
+    (f"Đứng yên {'10–45%' if V8 else '≤ 5%'}", round(m['static_share'] * 100, 1), G['static'][0] <= m['static_share'] <= G['static'][1]),
     ('Đẩy vào 25–65%', round(ks.get('push_in', 0) * 100, 1), 0.25 <= ks.get('push_in', 0) <= 0.65),
     ('Đổi kiểu máy: trung vị ≤ 1,5 s', run_med, run_med <= 1.5),
     ('Cắt cứng ≤ 2/video (mẫu: 0–2)', len(c3['cuts']), len(c3['cuts']) <= 2),
     ('Phụ đề baseline y≈918 (±13)', cg.get('baseline_y', {}).get('median'), cg.get('baseline_y') is not None and abs(cg['baseline_y']['median'] - 918) <= 13),
-    ('Phụ đề cao chữ ≈35 px (31–39)', cg.get('cap_h', {}).get('median'), cg.get('cap_h') is not None and 31 <= cg['cap_h']['median'] <= 39),
+    (f"Phụ đề cao chữ {'≈30 px (26–34)' if V8 else '≈35 px (31–39)'}", cg.get('cap_h', {}).get('median'), cg.get('cap_h') is not None and G['cap'][0] <= cg['cap_h']['median'] <= G['cap'][1]),
     ('Phụ đề căn giữa x≈360 (±10)', cg.get('center_x', {}).get('median'), cg.get('center_x') is not None and abs(cg['center_x']['median'] - 360) <= 10),
     ('Khoảng lặng > 0,35 s (≤ 1)', n_sil, n_sil <= 1),
     ('Sàn nhạc giữa câu −13,5…−18,5 dB', floor_db, -18.5 <= floor_db <= -13.5),
@@ -63,7 +67,7 @@ sys.path.insert(0, HERE); from sharpness import measure as _sharp
 sh = _sharp(f'{work}/v.mp4', 60)
 checks += [('Độ nét: chi tiết mịn trung vị ≥ 0,86 (mẫu 0,88–0,93)', sh['detail_med'], sh['detail_med'] >= 0.86),
            ('Độ nét: 10% mờ nhất ≥ 0,78', sh['detail_p10'], sh['detail_p10'] >= 0.78),
-           ('Bão hòa màu trung vị ≤ 135 (mẫu 65–133)', sh['sat_med'], sh['sat_med'] <= 135)]
+           (f"Bão hòa màu trung vị {'85–140 (mẫu v8 96–128)' if V8 else '≤ 135 (mẫu 65–133)'}", sh['sat_med'], G['sat'][0] <= sh['sat_med'] <= G['sat'][1])]
 # frozen / black frames (render crash, lost WebGL context): longest run of identical frames and share of near-black frames
 import cv2 as _cv
 _c = _cv.VideoCapture(f'{work}/v.mp4'); _prev = None; _run = _maxrun = 0; _black = _n = 0

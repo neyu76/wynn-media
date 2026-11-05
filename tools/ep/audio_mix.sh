@@ -6,6 +6,6 @@ set -e; source "$(dirname "$0")/env.sh" "$1"
 cp "$SRC/audio/$MUSIC" "$EP/audio/music.mp3"
 ffmpeg -v error -y -i "$EP/voice/voice_final.wav" -af "adelay=$(python3 -c "print(int($VOICE_OFFSET*1000))"):all=1" -ar 48000 -ac 1 "$EP/voice/voice_off.wav"
 python3 -I "$SRC/build_sfx.py" "$RC/production" "$SRC" "$EP/audio/sfx.wav" $DUR
-cd "$EP/audio" && python3 -I "$RC/production/mix_final.py" --voice ../voice/voice_off.wav --music music.mp3 --sfx sfx.wav --dur $DUR
+cd "$EP/audio" && python3 -I "$RC/production/mix_final.py" --voice ../voice/voice_off.wav --music music.mp3 --sfx sfx.wav --dur $DUR --bed ${BED:--23} --stereo ${STEREO:-0}
 echo "music_ducked $(ffprobe -v error -show_entries format=duration -of csv=p=0 music_ducked.wav) s (must equal $DUR)"
 python3 -I "$RC/tools/ep/captions.py" "$EP" $VOICE_OFFSET $DUR

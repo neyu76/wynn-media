@@ -32,6 +32,17 @@ main.js anatomy (T015):
 - Lighting per story act: `ACTS` table, `lightAct(a, b, k)`.
 - Labels in the x-ray: `lab(LB.x, x, y, t0, t1, scale)` + `setPointer`.
 
+**v8 episodes (default since 2026-11-05) — `docs/STYLE_V8.md` §3–7 replaces the camera grammar above:**
+- Real 3D sets from `engine_v4/sets3d.js` (`room`, `holeWall`, `mPlane` walls, `sPlane` signs, `shaft`, `motes`, `fixture`, `pendant`,
+  `bars`, `arm3/setArm`) and light from `engine_v4/looks.js` (`applyLook(preset, sunAt)`); pattern: `episodes/PINK15/engine/prison.js`.
+- Lens 60–75°, camera low (0.3–0.8 m) or high (2–2.5 m) in a front corner (`cornerCam`): floor + ceiling + two walls, depth lines.
+- Each shot = near-still hold (tiny drift) + one eased move; keys ~0.85 s apart, `setCam(keys, t, 0.1)`; 3.6–6.4 moves / 10 s;
+  mix push-ins with pull-outs (~16 %) and pans (~14 %); ~4 whips / min with blur sub-frames; dissolves 0.30 s, no cuts.
+- Aim the sun so the shaft crosses the frame sideways and lands on the floor in shot; bright fill + strong sun, haze in big spaces.
+- Characters: `C.mesh.material.emissiveIntensity = 0.38`; scale varies from tiny in wides to full-frame close-ups.
+- Don't hide a character mid-shot (pop) — move the camera over/around; extras walk ≥ 2.5 m from the lens; lamps never cover signs.
+- Check every changed shot side by side with a v8 sample: `bash tools/ep/compare_sample.sh <EP> cmpN <sample.mp4> "<t…>" "<t,…>"`.
+
 Rules learned on T015:
 - Every noun/verb in the narration has a visible action within ±0.15 s (reactions 0–3 f early, see above); people act on objects; nothing floats unheld.
 - Text on props must fit its board (auto-fit or shrink); labels never cover the hero object; nothing important within ~5 % of the frame edge in close-ups.
