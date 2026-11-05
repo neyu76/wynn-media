@@ -6,6 +6,11 @@ Everything except 3D-prop generation runs on a **CPU-only Linux box** (three.js 
 
 Reference episode: **T015 "The Cup That Punishes One Extra Pour"** (Tantalus cup, 46.4 s, QA 21/21). Rebuilding it is the acceptance test.
 
+**Style v8 (2026-11-05, default for new episodes): `docs/STYLE_V8.md`.** The owner's new target look, measured on two sample shorts
+(numbers in `references/style_v8/`, samples never in the repo): real 3D rooms/landscapes, wide low/high lens, real holds + eased moves,
+saturated accent colour, stereo bed, captions size 66. Template episode **`episodes/PINK15`**; toolkit `engine_v4/sets3d.js` + `looks.js`;
+knobs in `episode.env`: `STYLE=v8 RES=1280|1920 CAP_SIZE=66 STEREO=1` (unset = kit v7 behaviour, T015 unchanged).
+
 ## Repo map
 | Path | What |
 |---|---|
@@ -17,6 +22,10 @@ Reference episode: **T015 "The Cup That Punishes One Extra Pour"** (Tantalus cup
 | `production/` | `mix_final.py` (final mix), `audio_kit.py` (synth SFX), `sonicvoice_tts.py`, `align.py` |
 | `tools3d/` | **GPU only**: Hunyuan3D-2 install + image→GLB (`run_gen.sh`, `gen_prop.py`) |
 | `references/` | Style Bible (18 sample videos measured), per-video breakdowns, sample scripts, metrics |
+| `docs/STYLE_V8.md` | **v8 look** (2 new samples): measured targets, camera/sets/light/colour/characters rules, workflow, open gaps |
+| `references/style_v8/` | v8 numbers only: `gates.json` (44 vidclone gates), `profile*.json` — use with `vidclone qa --style references/style_v8` |
+| `engine_v4/sets3d.js`, `looks.js` | v8 toolkit: metre-UV brick rooms, window holes, sun shafts, motes, lamps, bars, 3D arms, `cornerCam`; lighting presets `applyLook` |
+| `tools/ep/compare_sample.sh` | our stills under a sample's frames of the same beats (+ luma/saturation) — the v8 look check before rendering |
 | `docs/KIT_SKILL_v7.md` | full style/production rules (story structure, camera, transitions, captions, audio) — read before writing a new episode |
 | `plugins/rickclips/` | Claude Code plugin = the workflow knowledge: `/rickclips:episode <Notion link + script>` (whole episode), `/rickclips:setup`, `/rickclips:voice-id`, stage skills `voice audio-captions shots render finalize-qa prop-3d`. Marketplace: `.claude-plugin/marketplace.json` |
 
@@ -98,6 +107,11 @@ water/streams present whenever the narration says so; labels overlapping objects
 | Water/tray/streams vanished in 10–19 s | a `//` comment inserted mid-line commented out `level/stem/drain/tray` | never put a comment in the middle of a line or argument list; re-check stills after every edit |
 | Same mistake broke `mix_final.py` (SyntaxError) | comment inside a call | `python3 -c "import ast…"` / `bash -n` / `node --check` every edited file |
 | Sweat drops / sparkles differ between renders (PSNR ~32 dB in those frames) | `Char.set` caches the face canvas by state **without t**, so time-animated fx freeze at the first frame each worker drew → output depends on how frames were split between workers | T015 keeps the original behaviour (to match the delivery). For new episodes: add `fx ? Math.round(t*30) : ''` to the cache key in `core.js` `Char.set` |
+| PINK15: signs/posters black or tiled | metre-UV `mPlane` used for a sign | `sPlane` (0..1 UVs) for every sign (`sets3d.js`) |
+| PINK15: video "flat, ugly" next to the sample though the numbers matched | eye-level lens straight at one wall, even fill, pastel colours | v8 §3–5: wide low/high corner lens, strong sun + practical lamps + haze, one saturated accent — always `compare_sample.sh` before rendering |
+| PINK15: too dark after "low-key" grade | samples are bright overall, dark only in ceilings | keep hemi 1.9–2.4 + sun 5.5–6.5 (`looks.js`) |
+| PINK15: character vanishes mid-crane (pop) | hidden by a time switch while in frame | keep in frame; route the camera over the head |
+| Bash script from PowerShell fails with `$'\r'` | `Set-Content` wrote CRLF | write scripts with the Write tool / python `newline='\n'` |
 | `melt` hangs when run detached | waits on stdin | `</dev/null` + `timeout -k` |
 | ffprobe `csv=p=0` prints `1080,` | trailing separator | use `-of default=nw=1:nk=1` |
 | Old 720p frames reused after switching to 1080p | `render.js` skips existing files | clear `frames/` when the resolution changes |

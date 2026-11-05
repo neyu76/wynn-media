@@ -4,8 +4,9 @@ Needs <EP>/voice/align.json (voice_prep.sh) and <EP>/script.txt. Writes <EP>/out
 Style: Work Sans ExtraBold 81 @ PlayRes 720×1280 (scales with libass to 1080×1920), white, black outline 5, MarginV 344 →
 baseline y≈917 @1280, ascender ≈35 px / x-height ≈27 px like the samples (size 75 measured ~8 % small).
 Grouping: a short function word joins the next word (≤ 11 chars) → ~65 % one-word events (samples 55–80 %)."""
-import sys, json, re
+import sys, json, re, os
 EP, OFF, END = sys.argv[1], float(sys.argv[2]), float(sys.argv[3])
+SIZE = int(os.environ.get('CAP_SIZE') or 81)  # v8 (docs/STYLE_V8.md): 66 → letter height ≈ 0.032 of the frame like the v8 samples
 A = json.load(open(EP + '/voice/align.json')); script = open(EP + '/script.txt').read()
 toks = [t for t in re.findall(r"[A-Za-z0-9'’]+[.,!?\"”]*", script)]
 assert len(toks) == len(A), (len(toks), len(A))
@@ -20,7 +21,7 @@ while k < len(words):
 one = sum(1 for g in groups if len(g['t'].split()) == 1) / len(groups)
 ts = lambda s: f"{int(s // 3600)}:{int(s % 3600 // 60):02d}:{s % 60:05.2f}"
 srt_t = lambda s: f"{int(s // 3600):02d}:{int(s % 3600 // 60):02d}:{int(s % 60):02d},{int(round((s % 1) * 1000)):03d}"
-hdr = """[Script Info]
+hdr = r"""[Script Info]
 ScriptType: v4.00+
 PlayResX: 720
 PlayResY: 1280
@@ -28,11 +29,11 @@ WrapStyle: 2
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Word,Work Sans ExtraBold,81,&H00FFFFFF,&H00FFFFFF,&H00000000,&H78000000,0,0,0,0,99,100,0,0,1,5,2.5,2,30,30,344,1
+Style: Word,Work Sans ExtraBold,@SIZE@,&H00FFFFFF,&H00FFFFFF,&H00000000,&H78000000,0,0,0,0,99,100,0,0,1,5,2.5,2,30,30,344,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-"""
+""".replace('@SIZE@', str(SIZE))
 ass, srt = [], []
 for i, g in enumerate(groups):
     nxt = groups[i + 1]['s'] if i + 1 < len(groups) else END

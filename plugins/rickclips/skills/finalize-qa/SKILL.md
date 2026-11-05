@@ -22,6 +22,13 @@ Ready = all of:
 5. Every contact sheet reviewed: no floating/unheld props, no clipped sign/label/effect, water & streams present when narrated,
    labels not over objects, no 1-frame flashes, captions readable.
 
+v8 episodes (`STYLE=v8` in episode.env): the kit table uses the v8 gates (static 10–45 %, stereo side −32…−18 dB, captions 26–34 px,
+saturation 85–140). Then also:
+```bash
+<vidclone>/bin/vidclone qa ~/rc_work/<EP>/deliver/<NAME>.mp4 --style references/style_v8 --out ~/rc_work/<EP>/qa_v8
+```
+→ 44 gates from the two v8 samples + sample-vs-new sheets; list every ❌ by name in the report. A 16 s test always fails duration.
+
 Failure → fix:
 - detail < 0.86: look at `qa_out/detail_by_time.txt`; whip-pan seconds are expected low; static soft shots → more texture/props in flat areas.
   Don't raise unsharp beyond the two passes in `assemble.sh` (0.7+ gives halos).

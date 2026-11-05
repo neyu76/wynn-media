@@ -1,4 +1,5 @@
 // node render.js out_dir t0 t1 [fps] [stillsCSV]     env: SS=2 (supersampling, default 1.5 → use 2 for delivery, 1 for previews)
+//   RES=1280|1920 (frame height, read by v8 core.js; empty = the episode core.js default). Clear frames/ when RES changes.
 // Robust: restarts Chromium every RESTART frames and whenever the WebGL context is lost (SwiftShader at SS=2 can run out of
 // memory → black/frozen frames). A frame rendered after a context loss is discarded and rendered again on a fresh browser.
 const { chromium } = require('playwright'); const fs = require('fs'); const http = require('http'); const path = require('path');
@@ -9,7 +10,7 @@ async function open() {
   const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   const p = await b.newPage({ viewport: { width: 720, height: 1280 } });
   p.on('console', m => { const s = m.text(); if (!s.startsWith('THREE')) console.log('[page]', s); }); p.on('pageerror', e => console.log('[err]', e.message));
-  await p.goto(`http://localhost:${srv.address().port}/index.html?ss=${process.env.SS || 1.5}`); await p.waitForFunction('window.READY === true', null, { timeout: 180000 });
+  await p.goto(`http://localhost:${srv.address().port}/index.html?ss=${process.env.SS || 1.5}&res=${process.env.RES || ''}`); // RES = frame height (v8 core.js: 1280 draft / 1920 delivery) await p.waitForFunction('window.READY === true', null, { timeout: 180000 });
   return { b, p };
 }
 (async () => {

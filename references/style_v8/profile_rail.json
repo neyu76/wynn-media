@@ -1,0 +1,354 @@
+{
+ "samples": [
+  "<sample not in repo>"
+ ],
+ "n": 1,
+ "metrics": {
+  "duration_s": {
+   "median": 65.225,
+   "min": 65.225,
+   "max": 65.225,
+   "label": "Duration (s)"
+  },
+  "wpm": {
+   "median": 202.3,
+   "min": 202.3,
+   "max": 202.3,
+   "label": "Narration pace (words/min)"
+  },
+  "hook_end_s": {
+   "median": 3.12,
+   "min": 3.12,
+   "max": 3.12,
+   "label": "Hook sentence ends by (s)"
+  },
+  "closer_words": {
+   "median": 21.0,
+   "min": 21,
+   "max": 21,
+   "label": "Closing sentence words"
+  },
+  "longest_pause_s": {
+   "median": 0.38,
+   "min": 0.38,
+   "max": 0.38,
+   "label": "Longest pause (s)"
+  },
+  "speech_start_s": {
+   "median": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "label": "First word starts by (s)"
+  },
+  "shot_len_median_s": {
+   "median": 3.533,
+   "min": 3.533,
+   "max": 3.533,
+   "label": "Median shot length (s)"
+  },
+  "transitions_per_min": {
+   "median": 14.73,
+   "min": 14.73,
+   "max": 14.73,
+   "label": "Transitions per minute"
+  },
+  "cuts": {
+   "median": 0.0,
+   "min": 0,
+   "max": 0,
+   "label": "Hard cuts (count)"
+  },
+  "dissolve_dur_s": {
+   "median": 0.3,
+   "min": 0.3,
+   "max": 0.3,
+   "label": "Dissolve length (s)"
+  },
+  "cuts_in_last_3s": {
+   "median": 0.0,
+   "min": 0,
+   "max": 0,
+   "label": "Hard cuts in last 3 s"
+  },
+  "static_share": {
+   "median": 0.179,
+   "min": 0.179,
+   "max": 0.179,
+   "label": "Camera static share"
+  },
+  "push_share": {
+   "median": 0.445,
+   "min": 0.445,
+   "max": 0.445,
+   "label": "Camera push-in share"
+  },
+  "pull_share": {
+   "median": 0.161,
+   "min": 0.161,
+   "max": 0.161,
+   "label": "Camera pull-out share"
+  },
+  "pan_share": {
+   "median": 0.192,
+   "min": 0.192,
+   "max": 0.192,
+   "label": "Camera pan share"
+  },
+  "move_run_median_s": {
+   "median": 0.3,
+   "min": 0.3,
+   "max": 0.3,
+   "label": "Camera move changes every (s)"
+  },
+  "jitter": {
+   "median": 13.14,
+   "min": 13.14,
+   "max": 13.14,
+   "label": "Handheld jitter"
+  },
+  "cam_hold_share": {
+   "median": 0.126,
+   "min": 0.126,
+   "max": 0.126,
+   "label": "Camera dead-still frames (< 0.3 px/f)"
+  },
+  "cam_move_share": {
+   "median": 0.531,
+   "min": 0.531,
+   "max": 0.531,
+   "label": "Camera moving frames (≥ 2 px/f)"
+  },
+  "moves_per_10s": {
+   "median": 6.35,
+   "min": 6.35,
+   "max": 6.35,
+   "label": "Camera moves per 10 s"
+  },
+  "move_peak_px": {
+   "median": 21.7,
+   "min": 21.7,
+   "max": 21.7,
+   "label": "Camera move peak speed (px/f @720)"
+  },
+  "move_peak_p90_px": {
+   "median": 41.5,
+   "min": 41.5,
+   "max": 41.5,
+   "label": "Fastest moves, p90 (px/f @720)"
+  },
+  "move_fwhm_f": {
+   "median": 12.0,
+   "min": 12.0,
+   "max": 12.0,
+   "label": "Camera move width at half speed (frames)"
+  },
+  "move_attack_f": {
+   "median": 12.0,
+   "min": 12.0,
+   "max": 12.0,
+   "label": "Camera move ease-in (frames)"
+  },
+  "quiet_push_rate": {
+   "median": 0.1896,
+   "min": 0.1896,
+   "max": 0.1896,
+   "label": "Push-in during holds (%/f)"
+  },
+  "hf_residual_px": {
+   "median": 0.142,
+   "min": 0.142,
+   "max": 0.142,
+   "label": "Hand-held float (px @720)"
+  },
+  "whips_per_min": {
+   "median": 4.62,
+   "min": 4.62,
+   "max": 4.62,
+   "label": "Whip pans per minute"
+  },
+  "picture_changes_per_min": {
+   "median": 11.0,
+   "min": 11.0,
+   "max": 11.0,
+   "label": "Picture changes per minute (cuts + swaps + block moves)"
+  },
+  "local_motion_share": {
+   "median": 1.0,
+   "min": 1.0,
+   "max": 1.0,
+   "label": "Share of the frame moving inside shots"
+  },
+  "local_motion_p95": {
+   "median": 24.41,
+   "min": 24.41,
+   "max": 24.41,
+   "label": "Local motion speed p95 (px/f @720)"
+  },
+  "saturation": {
+   "median": 128.0,
+   "min": 128.0,
+   "max": 128.0,
+   "label": "Saturation median"
+  },
+  "brightness": {
+   "median": 163.2247,
+   "min": 163.2247,
+   "max": 163.2247,
+   "label": "Brightness median"
+  },
+  "contrast": {
+   "median": 52.5097,
+   "min": 52.5097,
+   "max": 52.5097,
+   "label": "Contrast (luma std)"
+  },
+  "detail": {
+   "median": 0.9423,
+   "min": 0.9423,
+   "max": 0.9423,
+   "label": "Fine detail ratio"
+  },
+  "warmth": {
+   "median": 5.5777,
+   "min": 5.5777,
+   "max": 5.5777,
+   "label": "Warmth (Lab b*)"
+  },
+  "face_share": {
+   "median": 0.277,
+   "min": 0.277,
+   "max": 0.277,
+   "label": "Frames with a face"
+  },
+  "caption_share": {
+   "median": 0.785,
+   "min": 0.785,
+   "max": 0.785,
+   "label": "Seconds with captions"
+  },
+  "caption_baseline": {
+   "median": 0.7242,
+   "min": 0.7242,
+   "max": 0.7242,
+   "label": "Caption baseline (y / height)"
+  },
+  "caption_height": {
+   "median": 0.0305,
+   "min": 0.0305,
+   "max": 0.0305,
+   "label": "Caption letter height (/ height)"
+  },
+  "caption_words": {
+   "median": 1.0,
+   "min": 1.0,
+   "max": 1.0,
+   "label": "Words on screen per caption"
+  },
+  "lufs": {
+   "median": -14.06,
+   "min": -14.06,
+   "max": -14.06,
+   "label": "Loudness (LUFS)"
+  },
+  "true_peak": {
+   "median": -2.23,
+   "min": -2.23,
+   "max": -2.23,
+   "label": "True peak (dBTP)"
+  },
+  "bed_db": {
+   "median": -14.1,
+   "min": -14.1,
+   "max": -14.1,
+   "label": "Music/bed in gaps vs voice (dB)"
+  },
+  "stereo_side_db": {
+   "median": -23.9,
+   "min": -23.9,
+   "max": -23.9,
+   "label": "Stereo side − mid (dB)"
+  }
+ },
+ "facts": {
+  "resolution": [
+   "1080x1920"
+  ],
+  "fps": [
+   30.0
+  ],
+  "language": [
+   "en"
+  ],
+  "music_key": [
+   "E minor"
+  ],
+  "tempo_bpm": [
+   112.3
+  ],
+  "voice_f0_hz": [
+   210.1425
+  ],
+  "transition_mix": [
+   {
+    "cut": 0,
+    "dissolve": 16,
+    "flash": 0,
+    "fade": 0,
+    "whip": 0
+   }
+  ],
+  "camera_share": [
+   {
+    "static": 0.179,
+    "push": 0.445,
+    "pull": 0.161,
+    "pan": 0.192,
+    "tilt": 0.01,
+    "roll": 0.013
+   }
+  ],
+  "dissolve_dur_s": [
+   0.3
+  ],
+  "palette": [
+   [
+    {
+     "hex": "#905953",
+     "share": 0.237
+    },
+    {
+     "hex": "#462834",
+     "share": 0.225
+    },
+    {
+     "hex": "#8e97c0",
+     "share": 0.169
+    },
+    {
+     "hex": "#db7c42",
+     "share": 0.163
+    },
+    {
+     "hex": "#ddcfc4",
+     "share": 0.114
+    },
+    {
+     "hex": "#444897",
+     "share": 0.092
+    }
+   ]
+  ],
+  "caption_style": [
+   {
+    "fill": "#ffffff",
+    "edge": "#000000",
+    "boxed": false,
+    "uppercase_share": 0.0,
+    "words_hist": {
+     "1": 0.804,
+     "2": 0.196
+    }
+   }
+  ]
+ }
+}
