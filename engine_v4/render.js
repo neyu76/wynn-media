@@ -10,7 +10,8 @@ async function open() {
   const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   const p = await b.newPage({ viewport: { width: 720, height: 1280 } });
   p.on('console', m => { const s = m.text(); if (!s.startsWith('THREE')) console.log('[page]', s); }); p.on('pageerror', e => console.log('[err]', e.message));
-  await p.goto(`http://localhost:${srv.address().port}/index.html?ss=${process.env.SS || 1.5}&res=${process.env.RES || ''}`); // RES = frame height (v8 core.js: 1280 draft / 1920 delivery) await p.waitForFunction('window.READY === true', null, { timeout: 180000 });
+  // RES = frame height (v8 core.js: 1280 draft / 1920 delivery); empty = the episode core.js default
+  await p.goto(`http://localhost:${srv.address().port}/index.html?ss=${process.env.SS || 1.5}&res=${process.env.RES || ''}`); await p.waitForFunction('window.READY === true', null, { timeout: 180000 });
   return { b, p };
 }
 (async () => {
