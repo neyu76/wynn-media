@@ -1,0 +1,8 @@
+﻿- [RickClips setup](rickclips-setup.md) — kit v7 install state on Windows/WSL, connector substitutes, pending steps
+- [Video analysis tools](video-analysis-tools.md) — watch skill + WhisperX, kit analyze_sample in WSL, team samples location
+- [vidclone](vidclone.md) — any-niche style learner/maker repo+plugin, local only, test style + status
+- [Seedvis API](seedvis-api.md) — image/video gen API, key in env + ~/.seedvis, client seedvis/seedvis.py
+- [ATE production rules](ate-production-rules.md) — meme head swap for people, images via Google Flow, every prop drawn, library SFX
+- [EDITORNGHIEPDU SFX](editornghiepdu-sfx.md) — MCP server editornghiepdu-sfx tools, trial status, cache path
+- [AbsurdPlay Sport USA](absurdplay-sportusa.md) — kit engine in WSL /root/work, samples, measured gaps vs whatifbagel samples
+- [Prop 3D pipeline](prop-3d-pipeline.md) — Hunyuan3D-2 image→GLB in WSL, version pins, cutaway.js toolkit, long-job launch trick
